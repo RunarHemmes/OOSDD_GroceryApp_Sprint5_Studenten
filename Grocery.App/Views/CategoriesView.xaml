@@ -7,10 +7,6 @@
              x:DataType="vm:CategoriesViewModel"
              Title="CategoriesView">
 
-    <!--ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding Client.Name}" Command="{Binding ShowBoughtProductsCommand}"/>
-    </ContentPage.ToolbarItems-->
-
     <Shell.TitleView>
         <Grid>
             <Label Text="Categorieen" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />

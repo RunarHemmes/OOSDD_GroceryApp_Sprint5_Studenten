@@ -10,15 +10,12 @@ namespace Grocery.App.ViewModels
     {
         public ObservableCollection<Category> Categories { get; set; }
         private readonly ICategoryService _categoryService;
-        //[ObservableProperty]
-        //Client client;
 
         public CategoriesViewModel(ICategoryService categoryService, GlobalViewModel global)
         {
             Title = "Categorieenlijst";
             _categoryService = categoryService;
             Categories = new(_categoryService.GetAll());
-            //Client = global.Client;
         }
 
         [RelayCommand]
@@ -28,12 +25,6 @@ namespace Grocery.App.ViewModels
             string title = $"{nameof(Views.ProductCategoriesView)}?categoryId={category.Id}";
             await Shell.Current.GoToAsync(title, true, paramater);
         }
-
-        //[RelayCommand]
-        //public async Task ShowBoughtProducts()
-        //{
-        //    if (Client.Role == Role.Admin) await Shell.Current.GoToAsync(nameof(BoughtProductsView), true);
-        //}
 
         public override void OnAppearing()
         {

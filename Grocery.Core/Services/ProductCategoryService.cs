@@ -23,18 +23,8 @@ namespace Grocery.Core.Services
         public List<ProductCategory> GetAllInCategoryId(int id)
         {
             List<ProductCategory> productCategories = _productCategoryRepository.GetAll().Where(p => p.CategoryId == id).ToList();
-            //FillService(productCategories);
             return productCategories;
         }
-
-        //private void FillService(List<ProductCategory> productCategories)
-        //{
-        //    foreach (ProductCategory p in productCategories)
-        //    {
-        //        p.
-        //        //g.Product = _productRepository.Get(g.ProductId) ?? new(0, "", 0);
-        //    }
-        //}
 
         public ProductCategory? Get(int id)
         {
