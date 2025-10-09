@@ -10,7 +10,9 @@ namespace Grocery.App.ViewModels
     public partial class GroceryListViewModel : BaseViewModel
     {
         public ObservableCollection<GroceryList> GroceryLists { get; set; }
+
         private readonly IGroceryListService _groceryListService;
+
         [ObservableProperty]
         Client client;
 
@@ -26,7 +28,8 @@ namespace Grocery.App.ViewModels
         public async Task SelectGroceryList(GroceryList groceryList)
         {
             Dictionary<string, object> paramater = new() { { nameof(GroceryList), groceryList } };
-            await Shell.Current.GoToAsync($"{nameof(Views.GroceryListItemsView)}?Titel={groceryList.Name}", true, paramater);
+            string title = $"{nameof(Views.GroceryListItemsView)}?Titel={groceryList.Name}";
+            await Shell.Current.GoToAsync(title, true, paramater);
         }
 
         [RelayCommand]
