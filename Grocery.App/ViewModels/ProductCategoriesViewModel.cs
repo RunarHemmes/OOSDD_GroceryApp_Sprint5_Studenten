@@ -9,7 +9,7 @@ using System.Text.Json;
 
 namespace Grocery.App.ViewModels
 {
-    [QueryProperty(nameof(Category), nameof(Category))]
+    [QueryProperty(nameof(CategoryId), "categoryId")]
     public partial class ProductCategoriesViewModel : BaseViewModel
     {
         //private readonly IGroceryListItemsService _groceryListItemsService;
@@ -23,11 +23,23 @@ namespace Grocery.App.ViewModels
 
         public ObservableCollection<Product> AvailableCategoryProducts { get; set; } = [];
 
+        public ObservableCollection<Product> MyProducts { get; set; } = [];
+
         [ObservableProperty]
-        Category currentCategory = new Category(0, "None");
+        Category currentCategory = new(0, "None");
 
         [ObservableProperty]
         string myMessage;
+
+        public int CategoryId
+        {
+            set
+            {
+                // When the query parameter is set, update CurrentCategory
+                CurrentCategory = _categoryService.Get(value);
+                Load(CurrentCategory.Id);
+            }
+        }
 
         public ProductCategoriesViewModel(IProductCategoryService productCategoryService, IProductService productService, ICategoryService categoryService)
         {
@@ -35,13 +47,15 @@ namespace Grocery.App.ViewModels
             _productService = productService;
             _categoryService = categoryService;
             //_fileSaverService = fileSaverService;
-            Load(currentCategory.Id);
+            //Load(currentCategory.Id);
         }
 
         private void Load(int id)
         {
             MyCategoryItems.Clear();
+            MyProducts.Clear();
             foreach (var item in _productCategoryService.GetAllInCategoryId(id)) MyCategoryItems.Add(item);
+            foreach (var item in MyCategoryItems) MyProducts.Add(_productService.Get(item.ProductId));
             GetAvailableProducts();
         }
 
@@ -49,7 +63,7 @@ namespace Grocery.App.ViewModels
         {
             AvailableCategoryProducts.Clear();
             foreach (Product p in _productService.GetAll())
-                if (MyCategoryItems.FirstOrDefault(c => c.ProductId == p.Id) == null && p.Stock > 0 && (searchText == "" || p.Name.ToLower().Contains(searchText.ToLower())))
+                if (MyCategoryItems.FirstOrDefault(c => c.ProductId == p.Id) == null && (searchText == "" || p.Name.ToLower().Contains(searchText.ToLower())))
                     AvailableCategoryProducts.Add(p);
         }
 

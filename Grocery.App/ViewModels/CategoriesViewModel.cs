@@ -25,7 +25,7 @@ namespace Grocery.App.ViewModels
         public async Task SelectCategory(Category category)
         {
             Dictionary<string, object> paramater = new() { { nameof(Category), category } };
-            string title = $"{nameof(Views.ProductCategoriesView)}?Titel={category.Name}";
+            string title = $"{nameof(Views.ProductCategoriesView)}?categoryId={category.Id}";
             await Shell.Current.GoToAsync(title, true, paramater);
         }
 
