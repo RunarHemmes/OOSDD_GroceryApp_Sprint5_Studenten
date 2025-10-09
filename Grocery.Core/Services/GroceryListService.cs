@@ -7,14 +7,17 @@ namespace Grocery.Core.Services
     public class GroceryListService : IGroceryListService
     {
         private readonly IGroceryListRepository _groceryRepository;
+
         public GroceryListService(IGroceryListRepository groceryRepository)
         {
             _groceryRepository = groceryRepository;
         }
+
         public List<GroceryList> GetAll()
         {
             return _groceryRepository.GetAll();
         }
+
         public GroceryList Add(GroceryList item)
         {
             throw new NotImplementedException();

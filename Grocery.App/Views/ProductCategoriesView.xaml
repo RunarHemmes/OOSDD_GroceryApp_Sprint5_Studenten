@@ -3,18 +3,18 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:m="clr-namespace:Grocery.Core.Models;assembly=Grocery.Core"
              xmlns:vm="clr-namespace:Grocery.App.ViewModels"
-             x:Class="Grocery.App.Views.GroceryListItemsView"
-             x:DataType="vm:GroceryListItemsViewModel"
-             Title="GroceryListItemsView">
+             x:Class="Grocery.App.Views.ProductCategoriesView"
+             x:DataType="vm:ProductCategoriesViewModel"
+             Title="ProductCategoriesView">
 
-    <ContentPage.ToolbarItems>
+    <!--ContentPage.ToolbarItems>
         <ToolbarItem Text="Wijzig kleur" Command="{Binding ChangeColorCommand}" IconImageSource="{FontImage Glyph='&#xf30c;', Color=Black, Size=22}" />
         <ToolbarItem Text="Deel boodschappenlijst" Command="{Binding ShareGroceryListCommand}" IconImageSource="{FontImage Glyph='&#xf30c;', Color=Black, Size=22}" />
-    </ContentPage.ToolbarItems>
-    
+    </ContentPage.ToolbarItems-->
+
     <Shell.TitleView>
         <Grid>
-            <Label Text="{Binding GroceryList.Name}" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
+            <Label Text="{Binding CurrentCategory.Name}" FontSize="Large" HorizontalOptions="Center" VerticalOptions="Center" />
         </Grid>
     </Shell.TitleView>
 
@@ -24,36 +24,18 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Border Grid.Column="0" Stroke="#C49B33" StrokeThickness="4" Padding="10" Margin="10" HorizontalOptions="Center">
-            <CollectionView ItemsSource="{Binding MyGroceryListItems}" Margin="20" HorizontalOptions="Center" EmptyView="De boodschappenlijst is nog leeg. Voeg eerst boodschappen toe!">
+            <CollectionView ItemsSource="{Binding MyProducts}" Margin="20" HorizontalOptions="Center" EmptyView="De categorie is nog leeg. Voeg eerst producten toe!">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" ItemSpacing="10" />
                 </CollectionView.ItemsLayout>
 
                 <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="m:GroceryListItem">
+                    <DataTemplate x:DataType="m:ProductCategory">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="4*"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="20"/>
-                                <ColumnDefinition Width="20"/>
                             </Grid.ColumnDefinitions>
-                            <Label Grid.Column="1" Text="{Binding Product.Name}" HorizontalOptions="Start" WidthRequest="60" VerticalOptions="Center"/>
-                            <Label Grid.Column="2" Text="{Binding Amount}" VerticalOptions="Center" Margin="0,0,10,0"/>
-                            <Label Grid.Column="0" Text="{Binding Product.Price, StringFormat='{}€ {0:F2}'}" VerticalOptions="Center"/>
-                            <Grid Grid.Column="3">
-                                <Image Source="plus.png" WidthRequest="15" HeightRequest="15"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GroceryListItemsViewModel}}, Path=IncreaseAmountCommand}" CommandParameter="{Binding ProductId}" />
-                                </Grid.GestureRecognizers>
-                            </Grid>
-                            <Grid Grid.Column="4">
-                                <Image Source="min.png" WidthRequest="15" HorizontalOptions="End" HeightRequest="15"/>
-                                <Grid.GestureRecognizers>
-                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:GroceryListItemsViewModel}}, Path=DecreaseAmountCommand}" CommandParameter="{Binding ProductId}" />
-                                </Grid.GestureRecognizers>
-                            </Grid>
+                            <Label Grid.Column="0" Text="{Binding Name}" VerticalOptions="Center"/>
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
@@ -63,7 +45,7 @@
         <Border Grid.Row="1" Grid.Column="1" Stroke="#C49B33" StrokeThickness="4" Padding="5" Margin="5" HorizontalOptions="Center">
             <StackLayout>
                 <SearchBar x:Name="searchBar" SearchCommand="{Binding PerformSearchCommand}" SearchCommandParameter="{Binding Text, Source={x:Reference searchBar}}"/>
-                <CollectionView ItemsSource="{Binding AvailableProducts}" Margin="5" WidthRequest="300" HorizontalOptions="Start"
+                <CollectionView ItemsSource="{Binding AvailableCategoryProducts}" Margin="5" WidthRequest="300" HorizontalOptions="Start"
                     SelectionMode="Single"
                     SelectionChangedCommand="{Binding AddProductCommand}"
                     SelectionChangedCommandParameter="{Binding Source={RelativeSource Self}, Path=SelectedItem}">
